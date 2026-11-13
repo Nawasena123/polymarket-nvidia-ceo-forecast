@@ -23,7 +23,7 @@ reads each case in `/input` and writes 5 quantiles x 240 minutes per market to `
 (it matches the kit's practice cases exactly). `tools/bt.ts` cuts causal cases at every 20 minutes
 and scores the pinball loss as RULES.txt defines it (it reproduces the house baseline's practice
 loss, 0.363589, exactly). On 92 checkpoints from 2026-11-12T03:00Z to 2026-11-13T09:20Z the model
-scores 0.247 against the baseline's 0.369; on the six practice cases 0.252 against 0.364.
+scores 0.250 against the baseline's 0.377 (0.130 vs 0.260 on the last 14 hours); on the six practice cases 0.242 against 0.364.
 `tools/tune.ts` is the coordinate-descent tuner; `tools/blocks.ts` checks a parameter set block by
 block in time so a change is kept only if it holds up across regimes.
 

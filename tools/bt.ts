@@ -64,6 +64,7 @@ export const SETS = {
   all: checkpoints('2026-11-12T03:00:00Z', 20),
   late: checkpoints('2026-11-13T00:00:00Z', 20),
   recent: checkpoints('2026-11-12T19:00:00Z', 20),
+  combo: Array(8).fill([0, 1, 2, 3, 4, 5].map((i) => Date.parse('2026-11-12T06:00:00Z') / 1000 + i * 4 * 3600)).flat().concat(checkpoints('2026-11-12T19:00:00Z', 20)),
   mix: checkpoints('2026-11-12T03:00:00Z', 20).concat(checkpoints('2026-11-12T19:00:00Z', 20)),
 };
 

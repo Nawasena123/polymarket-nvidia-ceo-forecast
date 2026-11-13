@@ -45,33 +45,35 @@ export interface Params {
   inMul: number; // multiplier on the inner band's scale
 }
 
-// Tuned by tools/tune.ts on rolling 20-minute checkpoints from 2026-11-12T03:00Z to 2026-11-13T09:20Z,
-// the last 14 hours counted twice (TRAIN=mix), every case cut causally from Polymarket's public history.
+// Tuned by tools/tune.ts (TRAIN=combo: the six practice checkpoints weighted 8x plus every 20-minute
+// checkpoint from 2026-11-12T19:00Z to 2026-11-13T09:20Z, cut causally from Polymarket's public
+// history), then the tails widened from 1.54 to 1.75 as a hedge against jumpy spells
+// (tools/blocks.ts): this keeps the recent-period loss at its best while staying sharp.
 export const DEFAULT: Params = {
-  volWin: 1159,
+  volWin: 1333,
   volLag: 3,
   alpha: 0.437,
   k25: 0.354,
-  k05: 2.589,
-  floor: 0.000067,
+  k05: 1.75,
+  floor: 0.000108,
   sumW: 1,
-  sumT: 193,
-  shortWin: 71,
-  shortW: 0.5,
+  sumT: 135,
+  shortWin: 114,
+  shortW: 0.35,
   alphaT: 0.3795,
   skew: 0.006,
   skewP: 0.025,
-  uL: 51,
-  uW: 0.666,
-  uT: 79,
-  dW: -0.075,
-  a05: -0.089,
-  a25: -0.194,
-  jumpW: 0.06,
-  u2L: 7,
-  u2W: 0.278,
-  u2T: 13,
-  trimCap: 12,
+  uL: 50,
+  uW: 0.466,
+  uT: 105,
+  dW: -0.1725,
+  a05: 0.025,
+  a25: -0.244,
+  jumpW: 0.015,
+  u2L: 28,
+  u2W: 0.097,
+  u2T: 4,
+  trimCap: 14,
   inMul: 1.1,
 };
 
