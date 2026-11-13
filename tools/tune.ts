@@ -3,7 +3,7 @@
 import { DEFAULT, forecastMarket, type Params } from '../main.ts';
 import { checkpoints, evalSet, SETS } from './bt.ts';
 
-const train = process.env.TRAIN === 'all' ? SETS.all : checkpoints('2026-11-12T03:00:00Z', 20).filter((T) => T < Date.parse('2026-11-12T23:00:00Z') / 1000);
+const train = process.env.TRAIN ? SETS[process.env.TRAIN as keyof typeof SETS] : checkpoints('2026-11-12T03:00:00Z', 20).filter((T) => T < Date.parse('2026-11-12T23:00:00Z') / 1000);
 const test = SETS.late;
 const loss = (P: Params, Ts: number[]) => evalSet(Ts, (p, ctx) => forecastMarket(p, 240, P, ctx));
 
@@ -15,7 +15,9 @@ console.log('start train', best.toFixed(6), 'test', loss(P, test).toFixed(6));
 for (let r = 0; r < rounds; r++) {
   for (const k of keys) {
     const v0 = P[k] as number;
-    const cands = v0 === 0 ? [0.05, 0.1, 0.2, -0.05] : [0.5, 0.7, 0.85, 1.15, 1.4, 2].map((f) => v0 * f);
+    const signed = ['a05', 'a25', 'dW', 'sumW'].includes(k);
+    const cands = v0 === 0 ? [0.05, 0.1, 0.2, -0.05, -0.1, -0.2] : [0.5, 0.7, 0.85, 1.15, 1.4, 2].map((f) => v0 * f);
+    if (signed && v0 !== 0) cands.push(v0 + 0.05, v0 - 0.05, v0 + 0.15, v0 - 0.15);
     for (const v of cands) {
       const Q = { ...P, [k]: Number.isInteger(DEFAULT[k]) && Math.abs(v0) >= 1 ? Math.max(1, Math.round(v)) : v } as Params;
       const l = loss(Q, train);

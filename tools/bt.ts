@@ -57,12 +57,14 @@ export function evalSet(Ts: number[], f: F): number {
   return s / n;
 }
 
-const base = (p: number[]) => forecastMarket(p, HOR, { ...DEFAULT, floor: 0.0025, volWin: 0, spikeW: 0, alpha: 0.5, alphaT: 0.5, k25: 0.67449, k05: 1.644854, revW: 0, sumW: 0, uW: 0, dW: 0, skew: 0, shortW: 0, lam: 0 });
+const base = (p: number[]) => forecastMarket(p, HOR, { ...DEFAULT, floor: 0.0025, volWin: 0, spikeW: 0, alpha: 0.5, alphaT: 0.5, k25: 0.67449, k05: 1.644854, revW: 0, sumW: 0, uW: 0, dW: 0, skew: 0, shortW: 0, a05: 0, a25: 0, jumpW: 0, u2W: 0, trimCap: 0, inMul: 1 });
 
 export const SETS = {
   practice: [0, 1, 2, 3, 4, 5].map((i) => Date.parse('2026-11-12T06:00:00Z') / 1000 + i * 4 * 3600),
   all: checkpoints('2026-11-12T03:00:00Z', 20),
   late: checkpoints('2026-11-13T00:00:00Z', 20),
+  recent: checkpoints('2026-11-12T19:00:00Z', 20),
+  mix: checkpoints('2026-11-12T03:00:00Z', 20).concat(checkpoints('2026-11-12T19:00:00Z', 20)),
 };
 
 if (import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/').split('/').pop()!)) {
