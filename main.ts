@@ -123,7 +123,8 @@ export function forecastMarket(p: number[], horizon: number, P: Params, ctx: Ctx
   const n = p.length;
   const x = p[n - 1];
   const c0 = x;
-  const sumGap = ctx.sum > 0 ? (x / ctx.sum) * (1 - ctx.sum) : 0;
+  // Capped, so an odd case (a market missing, or one that already won) cannot drag every price far.
+  const sumGap = ctx.sum > 0 ? (x / ctx.sum) * Math.max(-0.15, Math.min(0.15, 1 - ctx.sum)) : 0;
   const ref = P.uW || P.dW ? ema(p, P.uL) : x;
   const rise = Math.max(0, c0 - ref);
   const fall = Math.max(0, ref - c0);
